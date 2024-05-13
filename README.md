@@ -37,9 +37,33 @@ Below is the list of all key-"words" allowed in .tlm files:
 | W | swaps the two topmost values on top of the stack |
 
 
+Alphabetical List:
 
-
-
-
-
-
+| Instruction   | |
+| - | - |
+| A | halts the program and waits for user input in the form of a capital letter, puts that letter into the cell |
+| B | duplicates the value on top of the stack and pushes it to the stack |
+| C | pops the the value on top of the stack and inserts it at the bottom |
+| D | Redirect control flow down |
+| E | pops the two topmost vlaues of the stack (a, b) and pushes a+b |
+| F | pops the two topmost values of the stack (a, b) and pushes a-b |
+| G | prints the value on top of the stack interpreted as a capital letter (mod Z+1) |
+| H | pops the value on top of the stack and puts it in the left and right neighbors |
+| I | increments the value on top of the stack by 1 |
+| J | pops the value on top of the stack and puts it in the current cell, interpreted as a letter, "modulo z + 1" |
+| K | prints the value on top of the stack interpreted as a letter (mod z+1) |
+| L | Redirect control flow left |
+| M | pushes the product of all eight neighbors to the stack after clearing the cells |
+| N | pushes the length of the stack to the stack |
+| O | redirects control flow to the right (or left) if the top value on the stack is zero (nonzero) |
+| P | pops the value on top of the stack and puts it in the current cell modulo 10 |
+| Q | prints the value on top of the stack |
+| R | Redirect control flow right |
+| S | pushes the sum of all eight neighbors to the stack after clearing the cells |
+| T | pops the value on top of the stack and puts it in the current cell, interpreted as a captial letter, "modulo Z + 1" |
+| U | Redirect control flow up |
+| V | prints the value on top of the stack interpreted as a number (mod 10) |
+| W | swaps the two topmost values on top of the stack |
+| X | decrements the value on top of the stack by 1 |
+| Y | halts the program and waits for user input in the form of a number, puts that number into the cell |
+| Z | halts the program and waits for user input in the form of a letter, puts that letter into the cell |
