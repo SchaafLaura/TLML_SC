@@ -2,28 +2,50 @@
 {
     internal class RootScreen : ScreenObject
     {
-        private ScreenSurface _mainSurface;
+        private ScreenSurface mainSurface;
 
         public RootScreen()
         {
-            // Create a surface that's the same size as the screen.
-            _mainSurface = new ScreenSurface(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT);
+            mainSurface = new ScreenSurface(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT);
+            
+            var lines = ReadLines("code.tlm");
+            int k = 1;
+            foreach(var l in lines)
+                mainSurface.Print(2, k++, l);
 
-            // Fill the surface with random characters and colors
-            _mainSurface.FillWithRandomGarbage(_mainSurface.Font);
 
-            // Create a rectangle box that has a violet foreground and black background.
-            // Characters are reset to 0 and mirroring is set to none. FillWithRandomGarbage will
-            // select random characters and mirroring, so this resets it within the box.
-            _mainSurface.Fill(new Rectangle(3, 3, 23, 3), Color.Violet, Color.Black, 0, Mirror.None);
+            Parser.ParseLines(lines);
 
-            // Print some text at (4, 4) using the foreground and background already there (violet and black)
-            _mainSurface.Print(4, 4, "Hello from SadConsole");
 
-            // Add _mainSurface as a child object of this one. This object, RootScreen, is a simple object
-            // and doesn't display anything itself. Since _mainSurface is going to be a child of it, _mainSurface
-            // will be displayed.
-            Children.Add(_mainSurface);
+
+
+
+
+
+
+            Children.Add(mainSurface);
+        }
+
+        public List<string> ReadLines(string path)
+        {
+            string line;
+            List<string> lines = new List<string>();
+            try
+            {
+                StreamReader streamReader = new StreamReader(path);
+                line = streamReader.ReadLine();
+                while (line is not null)
+                {
+                    lines.Add(line);
+                    line = streamReader.ReadLine();
+                }
+
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            return lines;
         }
     }
 }

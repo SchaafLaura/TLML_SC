@@ -20,4 +20,10 @@
     <PackageReference Include="SadConsole.Host.MonoGame" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="code.tlm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
