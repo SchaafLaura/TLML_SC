@@ -49,7 +49,7 @@
                 'W' => (null, Swap),
                 'X' => (null, Decrement),
                 'Y' => ("input not implemented yet", null),
-                'Z' => ("input not implemented yet", null),
+                'Z' => (null, RetrieveFromBottom),
                 '.' => (null, (_) => null),
                 >= '0' and <= '9' => (null, Push(instruction)),
                 >= 'a' and <= 'z' => (null, StepInto(instruction)),
@@ -94,6 +94,22 @@
                 program.functionStack.Push(program.functions[c.ToString()].Clone());
                 return null;
             };
+        }
+
+        public string? RetrieveFromBottom(TLMProgram program)
+        {
+            if (program.stack.Count == 0)
+                return "can't retrieve, stack too smol";
+
+            var rev = new List<int>();
+            while(program.stack.Count > 1)
+                rev.Add(program.stack.Pop());
+            var bottom = program.stack.Pop();
+            rev.Reverse();
+            foreach(var val in rev)
+                program.stack.Push(val);
+            program.stack.Push(bottom);
+            return null;
         }
 
         public string? Swap(TLMProgram program)
