@@ -25,9 +25,9 @@
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 1 != 0 || t < 350)
+            if (t++ % 4 != 0 || t < 350)
                 return;
-            for (int i = 0; i < 500 && !program.done; i++)
+            for (int i = 0; i < 1 && !program.done; i++)
                 program.Step();
 
 
@@ -50,7 +50,7 @@
             }
 
             mainSurface.Print(40, 28, "Stack Size: " + program.stack.Count.ToString());
-            mainSurface.Print(37, 29, "Fn Stack Size: " + program.functionStack.Count.ToString());
+            mainSurface.Print(37, 29, "fn-Stack Size: " + program.functionStack.Count.ToString());
 
 
             if(program.error is not null)
