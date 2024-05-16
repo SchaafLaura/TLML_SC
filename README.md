@@ -27,7 +27,7 @@ Below is the list of all key-"words" allowed in .tlm files:
 | X | decrements the value on top of the stack by 1 |
 | O | redirects control flow to the right (or left) if the top value on the stack is zero (nonzero) |
 | A | halts the program and waits for user input in the form of a capital letter, puts that letter into the cell |
-| Z | halts the program and waits for user input in the form of a letter, puts that letter into the cell |
+| Z | Removes the bottom value of the stack and pushes it to the top |
 | Y | halts the program and waits for user input in the form of a number, puts that number into the cell |
 | Q | prints the value on top of the stack |
 | V | prints the value on top of the stack interpreted as a number (mod 10) |
@@ -66,4 +66,4 @@ Alphabetical List:
 | W | swaps the two topmost values on top of the stack |
 | X | decrements the value on top of the stack by 1 |
 | Y | halts the program and waits for user input in the form of a number, puts that number into the cell |
-| Z | halts the program and waits for user input in the form of a letter, puts that letter into the cell |
+| Z | Removes the bottom value of the stack and pushes it to the top |
