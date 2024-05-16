@@ -25,13 +25,15 @@
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 1 != 0 || t < 100)
+            if (t++ % 1 != 0 || t < 350)
                 return;
-            program.Step();
+            for (int i = 0; i < 500 && !program.done; i++)
+                program.Step();
 
+
+            mainSurface.Clear();
             if (!program.done)
             {
-                mainSurface.Clear();
                 var fn = program.functionStack.Peek();
 
                 for (int i = 0; i < fn.instr.GetLength(0); i++)
@@ -40,13 +42,16 @@
                             mainSurface.Print(i + 10, j + 10, new ColoredString(fn.instr[i, j].ToString(), Color.White, Color.BlueViolet));
                         else
                             mainSurface.Print(i + 10, j + 10, new ColoredString(fn.instr[i, j].ToString(), Color.White, Color.Transparent));
-
-                var arr = program.stack.ToArray().Reverse().ToArray();
-                for(int i = 0; i < program.stack.Count; i++)
-                {
-                    mainSurface.Print(40, 15 - i, arr[i].ToString());
-                }
             }
+            var arr = program.stack.ToArray().Reverse().ToArray();
+            for (int i = 0; i < program.stack.Count; i++)
+            {
+                mainSurface.Print(40, 27 - i, arr[i].ToString());
+            }
+
+            mainSurface.Print(40, 28, "Stack Size: " + program.stack.Count.ToString());
+            mainSurface.Print(37, 29, "Fn Stack Size: " + program.functionStack.Count.ToString());
+
 
             if(program.error is not null)
             {
