@@ -53,7 +53,7 @@
                 '.' => (null, (_) => null),
                 >= '0' and <= '9' => (null, Push(instruction)),
                 >= 'a' and <= 'z' => (null, StepInto(instruction)),
-                _ => ("unknown symbol encountered" , null)
+                _ => ("unknown symbol '" + instruction + "' encountered" , null)
             };
         }
 
@@ -90,7 +90,7 @@
             return (program) =>
             {
                 if (!program.functions.ContainsKey(c.ToString()))
-                    return "can't step into function " + c + " because it doesn't exist";
+                    return "can't step into function '" + c + "' because it doesn't exist";
                 program.functionStack.Push(program.functions[c.ToString()].Clone());
                 return null;
             };
@@ -196,7 +196,7 @@
         public string? PopPutLowercase(TLMProgram program)
         {
             if (program.stack.Count == 0)
-                return "can't increment, stack empty";
+                return "can't pop, stack empty";
             var val = program.stack.Pop();
             program.functionStack.Peek().PutAsLowercase(val, ptr);
             return null;

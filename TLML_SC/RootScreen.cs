@@ -25,7 +25,7 @@
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 10 != 0 || t < 300)
+            if (t++ % 10 != 0 || t < 350)
                 return;
             program.Step();
 
@@ -44,9 +44,15 @@
                 var arr = program.stack.ToArray().Reverse().ToArray();
                 for(int i = 0; i < program.stack.Count; i++)
                 {
-                    mainSurface.Print(30, 15 - i, arr[i].ToString());
+                    mainSurface.Print(40, 15 - i, arr[i].ToString());
                 }
             }
+
+            if(program.error is not null)
+            {
+                mainSurface.Print(10, 20, new ColoredString(program.error, Color.Red, Color.Transparent));
+            }
+
             base.Update(delta);
         }
 

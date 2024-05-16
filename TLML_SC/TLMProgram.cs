@@ -6,6 +6,8 @@
         public Dictionary<string, TLMFunction> functions;
         public Stack<TLMFunction> functionStack = new();
 
+        public string? error = null;
+
         public bool done = false;
 
         public TLMProgram(Dictionary<string, TLMFunction> functions)
@@ -29,7 +31,8 @@
 
             if(result.err is not null)
             {
-                // print error, halt
+                error = result.err;
+                done = true;
                 return;
             }
 
@@ -37,7 +40,8 @@
 
             if(instErr is not null)
             {
-                // print error, halt
+                error = instErr;
+                done = true;
                 return;
             }
 
