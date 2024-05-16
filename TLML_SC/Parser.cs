@@ -2,7 +2,7 @@
 {
     internal static class Parser
     {
-        public static void ParseLines(List<string> lines)
+        public static Dictionary<string, TLMFunction> ParseLines(List<string> lines)
         {
             Dictionary<string, List<string>> functionLines = new();
             for(int i = 0; i < lines.Count; i++)
@@ -17,6 +17,7 @@
                 }
             }
 
+            Dictionary<string, TLMFunction> functions = new();
             foreach(var fn in functionLines)
             {
                 var fnName = fn.Key;
@@ -29,8 +30,10 @@
                     for(int j = 0; j < h; j++)
                         fnInstructions[i, j] = fnLines[j][i];
 
-                var function = new TLMFunction(fnName, fnInstructions);
+                var function = new TLMFunction(fnInstructions);
+                functions.Add(fnName, function);
             }
+            return functions;
         }
     }
 }
