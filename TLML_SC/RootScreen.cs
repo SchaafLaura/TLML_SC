@@ -25,9 +25,9 @@
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 4 != 0 || t < 350)
+            if (t++ % 1 != 0 || t < 350)
                 return;
-            for (int i = 0; i < 1 && !program.done; i++)
+            for (int i = 0; i < 5 && !program.done; i++)
                 program.Step();
 
 
