@@ -1,4 +1,6 @@
-﻿namespace TLML_SC
+﻿using Microsoft.Xna.Framework.Input;
+
+namespace TLML_SC
 {
     internal class TLMProgram
     {
@@ -9,6 +11,7 @@
         public string? error = null;
 
         public bool done = false;
+        public char? input = null;
 
         public TLMProgram(Dictionary<string, TLMFunction> functions)
         {
@@ -18,6 +21,11 @@
         public void Startup()
         {
             functionStack.Push(functions["main"].Clone());
+        }
+
+        public void Input(SadConsole.Input.Keys key)
+        {
+
         }
 
         public void Step()

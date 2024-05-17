@@ -1,4 +1,6 @@
-﻿namespace TLML_SC.Scenes
+﻿using SadConsole.Input;
+
+namespace TLML_SC.Scenes
 {
     internal class RootScreen : ScreenObject
     {
@@ -20,6 +22,15 @@
             program.Startup();
 
             Children.Add(mainSurface);
+        }
+
+        public override bool ProcessKeyboard(Keyboard keyboard)
+        {
+            if(keyboard.KeysDown.Count > 0)
+            {
+                program.Input(keyboard.KeysDown[0].Key);
+            }
+            return base.ProcessKeyboard(keyboard);
         }
 
         int t = 0;
