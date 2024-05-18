@@ -30,22 +30,22 @@
                 'D' => (null, Redirect((0, 1))),
                 'E' => (null, PopTwoAddPush),
                 'F' => (null, PopTwoSubPush),
-                'G' => ("printing not implemented yet", null),
+                'G' => (null, PopOutputCapital),
                 'H' => (null, PopPutHorizontal),
                 'I' => (null, Increment),
                 'J' => (null, PopPutLowercase),
-                'K' => ("printing not implemented yet", null),
+                'K' => (null, PopOutputLowercase),
                 'L' => (null, Redirect((-1, 0))),
                 'M' => (null, MultEightPush),
                 'N' => (null, PushLength),
                 'O' => (null, RedirectDependingOnTopStack),
                 'P' => (null, PopPutAsNumber),
-                'Q' => ("printing not implemented yet", null),
+                'Q' => (null, PopOutput),
                 'R' => (null, Redirect((1, 0))),
                 'S' => (null, SumEightPush),
                 'T' => (null, PopPutAsUppercase),
                 'U' => (null, Redirect((0, -1))),
-                'V' => ("printing not implemented yet", null),
+                'V' => (null, PopOutputModTen),
                 'W' => (null, Swap),
                 'X' => (null, Decrement),
                 'Y' => ("input not implemented yet", null),
@@ -56,7 +56,7 @@
                 _ => ("unknown symbol '" + instruction + "' encountered" , null)
             };
         }
-
+        
         public void PutAsNumber(int i, Point pos)
         {
             if (pos.X < 0 || pos.Y < 0 || pos.X >= instr.GetLength(0) || pos.Y >= instr.GetLength(1))
@@ -94,6 +94,44 @@
                 program.functionStack.Push(program.functions[c.ToString()].Clone());
                 return null;
             };
+        }
+
+        public string? PopOutputModTen(TLMProgram program)
+        {
+            if (program.stack.Count == 0)
+                return "can't pop, stack too smol";
+            var val = program.stack.Pop();
+            program.output += (val%10).ToString();
+            return null;
+        }
+
+        public string? PopOutput(TLMProgram program)
+        {
+            if (program.stack.Count == 0)
+                return "can't pop, stack too smol";
+            var val = program.stack.Pop();
+            program.output += val.ToString();
+            return null;
+        }
+
+        public string? PopOutputLowercase(TLMProgram program)
+        {
+            if (program.stack.Count == 0)
+                return "can't pop, stack too smol";
+            var val = program.stack.Pop();
+            val = (val % 26) + 97;
+            program.output += (char)val;
+            return null;
+        }
+
+        public string? PopOutputCapital(TLMProgram program)
+        {
+            if (program.stack.Count == 0)
+                return "can't pop, stack too smol";
+            var val = program.stack.Pop();
+            val = (val % 26) + 65;
+            program.output += (char) val;
+            return null;
         }
 
         public string? RetrieveFromBottom(TLMProgram program)
@@ -316,7 +354,6 @@
                     newInstr[i, j] = instr[i, j];
             return new TLMFunction(newInstr);
         }
-
 
         public string? StepOut(TLMProgram program)
         {

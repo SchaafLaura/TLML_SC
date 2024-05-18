@@ -36,8 +36,8 @@ namespace TLML_SC.Scenes
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 1 != 0 || t < 350)
-                return;
+            /*if (t++ % 1 != 0 || t < 350)
+                return;*/
             for (int i = 0; i < 5 && !program.done; i++)
                 program.Step();
 
@@ -57,17 +57,19 @@ namespace TLML_SC.Scenes
             var arr = program.stack.ToArray().Reverse().ToArray();
             for (int i = 0; i < program.stack.Count; i++)
             {
-                mainSurface.Print(40, 27 - i, arr[i].ToString());
+                mainSurface.Print(40, 26 - i, arr[i].ToString());
             }
 
-            mainSurface.Print(40, 28, "Stack Size: " + program.stack.Count.ToString());
-            mainSurface.Print(37, 29, "fn-Stack Size: " + program.functionStack.Count.ToString());
-
+            mainSurface.Print(40, 27, "Stack Size: " + program.stack.Count.ToString());
+            mainSurface.Print(37, 28, "fn-Stack Size: " + program.functionStack.Count.ToString());
+            mainSurface.Print(44, 29, "Output: " + program.output);
 
             if(program.error is not null)
             {
                 mainSurface.Print(10, 20, new ColoredString(program.error, Color.Red, Color.Transparent));
             }
+
+
 
             base.Update(delta);
         }

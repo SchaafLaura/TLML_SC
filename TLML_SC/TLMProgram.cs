@@ -7,11 +7,9 @@ namespace TLML_SC
         public Stack<int> stack = new();
         public Dictionary<string, TLMFunction> functions;
         public Stack<TLMFunction> functionStack = new();
-
         public string? error = null;
-
         public bool done = false;
-        public char? input = null;
+        public string output = "";
 
         public TLMProgram(Dictionary<string, TLMFunction> functions)
         {
@@ -25,7 +23,7 @@ namespace TLML_SC
 
         public void Input(SadConsole.Input.Keys key)
         {
-
+            
         }
 
         public void Step()
@@ -33,7 +31,6 @@ namespace TLML_SC
             if (done)
                 return;
 
-            // get instruction from top fn
             var fn = functionStack.Peek();
             var result = fn.Execute();
 
