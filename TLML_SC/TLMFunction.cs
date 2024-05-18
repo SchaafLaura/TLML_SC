@@ -24,7 +24,7 @@
 
             return instruction switch
             {
-                'A' => ("input not implemented yet", null),
+                'A' => (null, CapitalInput),
                 'B' => (null, DuplicateAndPush),
                 'C' => (null, PopAndInsert),
                 'D' => (null, Redirect((0, 1))),
@@ -45,10 +45,10 @@
                 'S' => (null, SumEightPush),
                 'T' => (null, PopPutAsUppercase),
                 'U' => (null, Redirect((0, -1))),
-                'V' => ("input not implemented yet", null),
+                'V' => (null, LowercaseInput),
                 'W' => (null, Swap),
                 'X' => (null, Decrement),
-                'Y' => ("input not implemented yet", null),
+                'Y' => (null, NumberInput),
                 'Z' => (null, RetrieveFromBottom),
                 '.' => (null, (_) => null),
                 >= '0' and <= '9' => (null, Push(instruction)),
@@ -83,6 +83,48 @@
             if (pos.X < 0 || pos.Y < 0 || pos.X >= instr.GetLength(0) || pos.Y >= instr.GetLength(1))
                 return;
             instr[pos.X, pos.Y] = (char) i;
+        }
+
+        public string? NumberInput(TLMProgram program)
+        {
+            program.inputHandler = (prgm, c) =>
+            {
+                if (c < 48 || c > 57)
+                    return false;
+
+                var fn = prgm.functionStack.Peek();
+                fn.Put(c, fn.ptr);
+                return true;
+            };
+            return null;
+        }
+
+        public string? LowercaseInput(TLMProgram program)
+        {
+            program.inputHandler = (prgm, c) =>
+            {
+                if (c < 65 || c > 90)
+                    return false;
+
+                var fn = prgm.functionStack.Peek();
+                fn.Put(c.ToString().ToLower()[0], fn.ptr);
+                return true;
+            };
+            return null;
+        }
+
+        public string? CapitalInput(TLMProgram program)
+        {
+            program.inputHandler = (prgm, c) =>
+            {
+                if (c < 65 || c > 90)
+                    return false;
+
+                var fn = prgm.functionStack.Peek();
+                fn.Put(c, fn.ptr);
+                return true;
+            };
+            return null;
         }
 
         public Instruction StepInto(char c)

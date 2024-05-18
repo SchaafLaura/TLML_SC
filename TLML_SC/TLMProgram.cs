@@ -4,12 +4,16 @@ namespace TLML_SC
 {
     internal class TLMProgram
     {
+        public delegate bool InputHandler(TLMProgram program, char input);
+
         public Stack<int> stack = new();
         public Dictionary<string, TLMFunction> functions;
         public Stack<TLMFunction> functionStack = new();
         public string? error = null;
         public bool done = false;
         public string output = "";
+
+        public InputHandler? inputHandler = null;
 
         public TLMProgram(Dictionary<string, TLMFunction> functions)
         {
@@ -21,14 +25,23 @@ namespace TLML_SC
             functionStack.Push(functions["main"].Clone());
         }
 
-        public void Input(SadConsole.Input.Keys key)
+        public void Input(char c)
         {
-            
+            if (inputHandler is null)
+                return;
+
+            if (!inputHandler.Invoke(this, c))
+                return;
+
+            inputHandler = null;
         }
 
         public void Step()
         {
             if (done)
+                return;
+
+            if (inputHandler is not null)
                 return;
 
             var fn = functionStack.Peek();

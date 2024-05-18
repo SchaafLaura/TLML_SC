@@ -28,9 +28,25 @@ namespace TLML_SC.Scenes
         {
             if(keyboard.KeysDown.Count > 0)
             {
-                program.Input(keyboard.KeysDown[0].Key);
+                char c = ProcessKey(keyboard.KeysDown[0].Key);
+                program.Input(c);
             }
             return base.ProcessKeyboard(keyboard);
+        }
+
+        private char ProcessKey(Keys key)
+        {
+            return key switch {
+                Keys.D0 or Keys.D1 or Keys.D2 or Keys.D3 or Keys.D4 or
+                Keys.D5 or Keys.D6 or Keys.D7 or Keys.D8 or Keys.D9
+                => key.ToString()[1],
+                Keys.A or Keys.B or Keys.C or Keys.D or Keys.E or Keys.F or Keys.G or
+                Keys.H or Keys.I or Keys.J or Keys.K or Keys.L or Keys.M or Keys.N or
+                Keys.O or Keys.P or Keys.Q or Keys.R or Keys.S or Keys.T or Keys.U or
+                Keys.V or Keys.W or Keys.X or Keys.Y or Keys.Z 
+                => key.ToString()[0],
+                _ => '?'
+            };
         }
 
         int t = 0;
