@@ -45,7 +45,7 @@
                 'S' => (null, SumEightPush),
                 'T' => (null, PopPutAsUppercase),
                 'U' => (null, Redirect((0, -1))),
-                'V' => (null, PopOutputModTen),
+                'V' => ("input not implemented yet", null),
                 'W' => (null, Swap),
                 'X' => (null, Decrement),
                 'Y' => ("input not implemented yet", null),
@@ -96,14 +96,14 @@
             };
         }
 
-        public string? PopOutputModTen(TLMProgram program)
+        /*public string? PopOutputModTen(TLMProgram program)
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack too smol";
             var val = program.stack.Pop();
             program.output += (val%10).ToString();
             return null;
-        }
+        }*/
 
         public string? PopOutput(TLMProgram program)
         {
