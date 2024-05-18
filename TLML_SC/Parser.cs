@@ -30,7 +30,7 @@
                     for(int j = 0; j < h; j++)
                         fnInstructions[i, j] = fnLines[j][i];
 
-                var function = new TLMFunction(fnInstructions);
+                var function = new TLMFunction(fnName, fnInstructions);
                 functions.Add(fnName, function);
             }
             return functions;

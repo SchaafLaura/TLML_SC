@@ -49,11 +49,11 @@ namespace TLML_SC.Scenes
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            /*if (t++ % 5 != 0 || t < 350)
-                return;*/
-            for (int i = 0; i < 100000 && !program.done; i++)
+            if (t++ % 5 != 0 || t < 350)
+                return;
+            for (int i = 0; i < 1 && !program.done; i++)
                 program.Step();
-
+            
 
             mainSurface.Clear();
             if (!program.done)

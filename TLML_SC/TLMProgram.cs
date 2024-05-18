@@ -60,7 +60,11 @@ namespace TLML_SC
 
             if(instErr is not null)
             {
-                error = instErr;
+                error = instErr +
+                    " [in function \"" + fn.name +
+                    "\" at " + fn.ptr.ToString() +
+                    " instruction: " + fn.instr[fn.ptr.X, fn.ptr.Y] +
+                    "]";
                 done = true;
                 return;
             }

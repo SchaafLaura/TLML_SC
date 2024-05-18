@@ -7,10 +7,13 @@
         public Point flw = new Point(1, 0);
         public char[,] instr;
 
+        public string name;
+
         public delegate string? Instruction(TLMProgram program);
 
-        public TLMFunction(char[,] instr)
+        public TLMFunction(string name, char[,] instr)
         {
+            this.name = name;
             this.instr = instr;
         }
 
@@ -138,15 +141,6 @@
             };
         }
 
-        /*public string? PopOutputModTen(TLMProgram program)
-        {
-            if (program.stack.Count == 0)
-                return "can't pop, stack too smol";
-            var val = program.stack.Pop();
-            program.output += (val%10).ToString();
-            return null;
-        }*/
-
         public string? PopOutput(TLMProgram program)
         {
             if (program.stack.Count == 0)
@@ -184,16 +178,6 @@
             var val = program.stack.RemoveFromBack();
             program.stack.AddToFront(val);
             return null;
-
-            /*var rev = new List<int>();
-            while(program.stack.Count > 1)
-                rev.Add(program.stack.Pop());
-            var bottom = program.stack.Pop();
-            rev.Reverse();
-            foreach(var val in rev)
-                program.stack.Push(val);
-            program.stack.Push(bottom);
-            return null;*/
         }
 
         public string? Swap(TLMProgram program)
@@ -379,13 +363,6 @@
             var val = program.stack.RemoveFromFront();
             program.stack.AddToBack(val);
             return null;
-            /*var tmp = new Stack<int>();
-            while (program.stack.Count > 0)
-                tmp.Push(program.stack.RemoveFromFront());
-            tmp.Push(val);
-            while (tmp.Count > 0)
-                program.stack.AddToFront(tmp.Pop());
-            return null;*/
         }
 
         public string? DuplicateAndPush(TLMProgram program)
@@ -404,7 +381,7 @@
             for(int i = 0; i < instr.GetLength(0); i++)
                 for(int j = 0; j <  instr.GetLength(1); j++)
                     newInstr[i, j] = instr[i, j];
-            return new TLMFunction(newInstr);
+            return new TLMFunction(this.name, newInstr);
         }
 
         public string? StepOut(TLMProgram program)
