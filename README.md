@@ -30,7 +30,7 @@ Below is the list of all key-"words" allowed in .tlm files:
 | Z | Removes the bottom value of the stack and pushes it to the top |
 | Y | halts the program and waits for user input in the form of a number, puts that number into the cell |
 | Q | pops and prints the value on top of the stack |
-| V | pops and prints the value on top of the stack interpreted as a number (mod 10) |
+| V | halts the program and waits for user input in the form of a letter, puts that letter into the cell |
 | G | pops and prints the value on top of the stack interpreted as a capital letter (mod Z+1) |
 | K | pops and prints the value on top of the stack interpreted as a letter (mod z+1) |
 | B | duplicates the value on top of the stack and pushes it to the stack |
@@ -62,7 +62,7 @@ Alphabetical List:
 | S | pushes the sum of all eight neighbors to the stack after clearing the cells |
 | T | pops the value on top of the stack and puts it in the current cell, interpreted as a captial letter, "modulo Z + 1" |
 | U | Redirect control flow up |
-| V | pops and prints the value on top of the stack interpreted as a number (mod 10) |
+| V | halts the program and waits for user input in the form of a letter, puts that letter into the cell |
 | W | swaps the two topmost values on top of the stack |
 | X | decrements the value on top of the stack by 1 |
 | Y | halts the program and waits for user input in the form of a number, puts that number into the cell |
