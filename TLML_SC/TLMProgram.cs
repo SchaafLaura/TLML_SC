@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Nito.Collections;
 
 namespace TLML_SC
 {
@@ -6,7 +7,8 @@ namespace TLML_SC
     {
         public delegate bool InputHandler(TLMProgram program, char input);
 
-        public Stack<int> stack = new();
+        public Deque<int> stack = new();
+        //public Stack<int> stack = new();
         public Dictionary<string, TLMFunction> functions;
         public Stack<TLMFunction> functionStack = new();
         public string? error = null;

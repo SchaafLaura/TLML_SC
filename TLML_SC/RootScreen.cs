@@ -13,10 +13,6 @@ namespace TLML_SC.Scenes
             mainSurface = new ScreenSurface(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT);
             
             var lines = ReadLines("code.tlm");
-           /* int k = 1;
-            foreach(var l in lines)
-                mainSurface.Print(2, k++, l);*/
-
 
             program = new TLMProgram(Parser.ParseLines(lines));
             program.Startup();
@@ -26,10 +22,11 @@ namespace TLML_SC.Scenes
 
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
-            if(keyboard.KeysDown.Count > 0)
+            if(keyboard.KeysReleased.Count > 0)
             {
-                char c = ProcessKey(keyboard.KeysDown[0].Key);
+                char c = ProcessKey(keyboard.KeysReleased[0].Key);
                 program.Input(c);
+                keyboard.Clear();
             }
             return base.ProcessKeyboard(keyboard);
         }
@@ -52,9 +49,9 @@ namespace TLML_SC.Scenes
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            /*if (t++ % 1 != 0 || t < 350)
+            /*if (t++ % 5 != 0 || t < 350)
                 return;*/
-            for (int i = 0; i < 5 && !program.done; i++)
+            for (int i = 0; i < 40000 && !program.done; i++)
                 program.Step();
 
 
