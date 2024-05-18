@@ -151,7 +151,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack too smol";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             program.output += val.ToString();
             return null;
         }
@@ -160,7 +160,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack too smol";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             val = (val % 26) + 97;
             program.output += (char)val;
             return null;
@@ -170,7 +170,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack too smol";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             val = (val % 26) + 65;
             program.output += (char) val;
             return null;
@@ -181,7 +181,11 @@
             if (program.stack.Count == 0)
                 return "can't retrieve, stack too smol";
 
-            var rev = new List<int>();
+            var val = program.stack.RemoveFromBack();
+            program.stack.AddToFront(val);
+            return null;
+
+            /*var rev = new List<int>();
             while(program.stack.Count > 1)
                 rev.Add(program.stack.Pop());
             var bottom = program.stack.Pop();
@@ -189,17 +193,17 @@
             foreach(var val in rev)
                 program.stack.Push(val);
             program.stack.Push(bottom);
-            return null;
+            return null;*/
         }
 
         public string? Swap(TLMProgram program)
         {
             if (program.stack.Count < 2)
                 return "can't swap, stack too smol";
-            var a = program.stack.Pop();
-            var b = program.stack.Pop();
-            program.stack.Push(a);
-            program.stack.Push(b);
+            var a = program.stack.RemoveFromFront();
+            var b = program.stack.RemoveFromFront();
+            program.stack.AddToFront(a);
+            program.stack.AddToFront(b);
             return null;
         }
 
@@ -207,7 +211,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack empty";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             var fn = program.functionStack.Peek();
             fn.PutAsUppercase(val, fn.ptr);
             return null;
@@ -217,7 +221,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack empty";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             var fn = program.functionStack.Peek();
             fn.PutAsNumber(val, fn.ptr);
             return null;
@@ -229,7 +233,10 @@
                 return "can't redirect, stack empty";
             var fn = program.functionStack.Peek();
 
-            fn.flw = program.stack.Peek() != 0 ?
+            var peek = program.stack.RemoveFromFront();
+            program.stack.AddToFront(peek);
+
+            fn.flw = peek != 0 ?
                 flw switch
                 {
                     (0, 1) => (-1, 0),
@@ -249,7 +256,7 @@
 
         public string? PushLength(TLMProgram program)
         {
-            program.stack.Push(program.stack.Count);
+            program.stack.AddToFront(program.stack.Count);
             return null;
         }
 
@@ -267,7 +274,7 @@
                         sum += int.Parse(fn.instr[ptr.X + i, ptr.Y + j].ToString());
                         fn.Put('.', (ptr.X + i, ptr.Y + j));
                     }
-            program.stack.Push(sum);
+            program.stack.AddToFront(sum);
             return null;
         }
 
@@ -285,7 +292,7 @@
                         prod *= int.Parse(fn.instr[ptr.X + i, ptr.Y + j].ToString());
                         fn.Put('.', (ptr.X + i, ptr.Y + j));
                     }
-            program.stack.Push(prod);
+            program.stack.AddToFront(prod);
             return null;
         }
 
@@ -293,7 +300,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack empty";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             program.functionStack.Peek().PutAsLowercase(val, ptr);
             return null;
         }
@@ -302,8 +309,8 @@
         {
             if (program.stack.Count == 0)
                 return "can't increment, stack empty";
-            var val = program.stack.Pop();
-            program.stack.Push(val - 1);
+            var val = program.stack.RemoveFromFront();
+            program.stack.AddToFront(val - 1);
             return null;
         }
 
@@ -311,8 +318,8 @@
         {
             if (program.stack.Count == 0)
                 return "can't increment, stack empty";
-            var val = program.stack.Pop();
-            program.stack.Push(val + 1);
+            var val = program.stack.RemoveFromFront();
+            program.stack.AddToFront(val + 1);
             return null;
         }
 
@@ -320,7 +327,7 @@
         {
             if (program.stack.Count == 0)
                 return "can't pop, stack empty";
-            var val = program.stack.Pop();
+            var val = program.stack.RemoveFromFront();
             var fn = program.functionStack.Peek();
             fn.PutAsNumber(val, ptr + (1, 0));
             fn.PutAsNumber(val, ptr - (1, 0));
@@ -331,9 +338,9 @@
         {
             if (program.stack.Count < 2)
                 return "Can't subtract two, stack too smol";
-            var val1 = program.stack.Pop();
-            var val2 = program.stack.Pop();
-            program.stack.Push(val1 - val2);
+            var val1 = program.stack.RemoveFromFront();
+            var val2 = program.stack.RemoveFromFront();
+            program.stack.AddToFront(val1 - val2);
             return null;
         }
 
@@ -341,9 +348,9 @@
         {
             if (program.stack.Count < 2)
                 return "Can't add two, stack too smol";
-            var val1 = program.stack.Pop();
-            var val2 = program.stack.Pop();
-            program.stack.Push(val1 + val2);
+            var val1 = program.stack.RemoveFromFront();
+            var val2 = program.stack.RemoveFromFront();
+            program.stack.AddToFront(val1 + val2);
             return null;
         }
 
@@ -351,7 +358,7 @@
         {
             return (program) =>
             {
-                program.stack.Push(int.Parse(c.ToString()));
+                program.stack.AddToFront(int.Parse(c.ToString()));
                 return null;
             };
         }
@@ -369,22 +376,25 @@
         {
             if (program.stack.Count == 0)
                 return "Can't pop, stack empty";
-            var val = program.stack.Pop();
-            var tmp = new Stack<int>();
+            var val = program.stack.RemoveFromFront();
+            program.stack.AddToBack(val);
+            return null;
+            /*var tmp = new Stack<int>();
             while (program.stack.Count > 0)
-                tmp.Push(program.stack.Pop());
+                tmp.Push(program.stack.RemoveFromFront());
             tmp.Push(val);
             while (tmp.Count > 0)
-                program.stack.Push(tmp.Pop());
-            return null;
+                program.stack.AddToFront(tmp.Pop());
+            return null;*/
         }
 
         public string? DuplicateAndPush(TLMProgram program)
         {
             if (program.stack.Count == 0)
                 return "Can't duplicate, stack empty";
-            var val = program.stack.Peek();
-            program.stack.Push(val);
+            var val = program.stack.RemoveFromFront();
+            program.stack.AddToFront(val);
+            program.stack.AddToFront(val);
             return null;
         }
 

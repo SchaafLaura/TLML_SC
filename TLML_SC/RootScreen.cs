@@ -51,7 +51,7 @@ namespace TLML_SC.Scenes
         {
             /*if (t++ % 5 != 0 || t < 350)
                 return;*/
-            for (int i = 0; i < 40000 && !program.done; i++)
+            for (int i = 0; i < 100000 && !program.done; i++)
                 program.Step();
 
 
