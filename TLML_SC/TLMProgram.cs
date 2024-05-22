@@ -17,6 +17,8 @@ namespace TLML_SC
 
         public InputHandler? inputHandler = null;
 
+        public int stepsTaken = -1;
+
         public TLMProgram(Dictionary<string, TLMFunction> functions)
         {
             this.functions = functions;
@@ -45,6 +47,8 @@ namespace TLML_SC
 
             if (inputHandler is not null)
                 return;
+
+            stepsTaken++;
 
             var fn = functionStack.Peek();
             var result = fn.Execute();

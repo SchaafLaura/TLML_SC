@@ -1,4 +1,6 @@
-﻿using SadConsole.Input;
+﻿using NAudio.CoreAudioApi;
+using SadConsole.Input;
+using SadConsoleGame.Audio;
 
 namespace TLML_SC.Scenes
 {
@@ -7,6 +9,7 @@ namespace TLML_SC.Scenes
         private ScreenSurface mainSurface;
 
         TLMProgram program;
+        AudioProvider audio;
 
         public RootScreen()
         {
@@ -16,6 +19,9 @@ namespace TLML_SC.Scenes
 
             program = new TLMProgram(Parser.ParseLines(lines));
             program.Startup();
+
+            //audio = new IngameAudioProvider();
+            audio = new NullAudioProvider();
 
             Children.Add(mainSurface);
         }
@@ -49,9 +55,12 @@ namespace TLML_SC.Scenes
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 5 != 0 || t < 350)
+            if (t++ % 8 != 0 || t < 0)
                 return;
-            for (int i = 0; i < 1 && !program.done; i++)
+            /*for (int i = 0; i < 100000 && !program.done; i++)
+                program.Step();*/
+
+            if(!program.done)
                 program.Step();
             
 
@@ -73,13 +82,37 @@ namespace TLML_SC.Scenes
                 mainSurface.Print(40, 26 - i, arr[i].ToString());
             }
 
-            mainSurface.Print(40, 27, "Stack Size: " + program.stack.Count.ToString());
-            mainSurface.Print(37, 28, "fn-Stack Size: " + program.functionStack.Count.ToString());
-            mainSurface.Print(44, 29, "Output: " + program.output);
+            mainSurface.Print(40, 26, "Stack Size: " + program.stack.Count.ToString());
+            mainSurface.Print(37, 27, "fn-Stack Size: " + program.functionStack.Count.ToString());
+            mainSurface.Print(44, 28, "Output: " + program.output);
+            mainSurface.Print(45, 29, "Steps: " + program.stepsTaken.ToString());
 
             if(program.error is not null)
             {
                 mainSurface.Print(10, 20, new ColoredString(program.error, Color.Red, Color.Transparent));
+            }
+
+
+
+
+            if (!program.done && program.stepsTaken != -1)
+            {
+                var fn = program.functionStack.Peek();
+                var ptr = fn.ptr;
+                if (ptr.X < 0 || ptr.Y < 0)
+                    return;
+                var op = fn.instr[fn.ptr.X, fn.ptr.Y];
+                int sound = op switch
+                {
+                    >= '0' and <= '9' => op - 48,
+                    >= 'A' and <= 'Z' => op - 65,
+                    >= 'a' and <= 'z' => op - 97,
+                    _ => -1
+                };
+                if(sound != -1)
+                {
+                    audio.PlaySound(sound);
+                }
             }
 
 
