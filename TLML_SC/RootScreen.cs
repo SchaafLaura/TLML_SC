@@ -20,8 +20,8 @@ namespace TLML_SC.Scenes
             program = new TLMProgram(Parser.ParseLines(lines));
             program.Startup();
 
-            //audio = new IngameAudioProvider();
-            audio = new NullAudioProvider();
+            audio = new IngameAudioProvider();
+            //audio = new NullAudioProvider();
 
             Children.Add(mainSurface);
         }
@@ -55,14 +55,35 @@ namespace TLML_SC.Scenes
         int t = 0;
         public override void Update(TimeSpan delta)
         {
-            if (t++ % 8 != 0 || t < 0)
+            if (t++ % 16 != 0 || t < 0)
                 return;
             /*for (int i = 0; i < 100000 && !program.done; i++)
                 program.Step();*/
 
             if(!program.done)
                 program.Step();
-            
+
+            if (!program.done && program.stepsTaken != -1)
+            {
+                var fn = program.functionStack.Peek();
+                var ptr = fn.ptr;
+                if (ptr.X < 0 || ptr.Y < 0)
+                    return;
+                var op = fn.instr[fn.ptr.X, fn.ptr.Y];
+                int sound = op switch
+                {
+                    >= 'A' and <= 'Z' => (op - 65),
+                    >= 'a' and <= 'z' => (op - 97) + 26,
+                    >= '0' and <= '9' => (op - 48) + 26 + 26,
+                    
+                    _ => -1
+                };
+                if (sound != -1)
+                {
+                    audio.PlaySound(sound);
+                }
+            }
+
 
             mainSurface.Clear();
             if (!program.done)
@@ -95,25 +116,7 @@ namespace TLML_SC.Scenes
 
 
 
-            if (!program.done && program.stepsTaken != -1)
-            {
-                var fn = program.functionStack.Peek();
-                var ptr = fn.ptr;
-                if (ptr.X < 0 || ptr.Y < 0)
-                    return;
-                var op = fn.instr[fn.ptr.X, fn.ptr.Y];
-                int sound = op switch
-                {
-                    >= '0' and <= '9' => op - 48,
-                    >= 'A' and <= 'Z' => op - 65,
-                    >= 'a' and <= 'z' => op - 97,
-                    _ => -1
-                };
-                if(sound != -1)
-                {
-                    audio.PlaySound(sound);
-                }
-            }
+            
 
 
 
